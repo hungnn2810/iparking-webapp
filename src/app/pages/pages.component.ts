@@ -1,16 +1,15 @@
 import { Component, OnInit, Renderer2 } from '@angular/core';
-import { DialogService } from 'ng-devui/modal';
+import { TranslateService, TranslationChangeEvent } from '@ngx-translate/core';
 import { DrawerService, IDrawerOpenResult } from 'ng-devui/drawer';
+import { DialogService } from 'ng-devui/modal';
+import { Theme } from 'ng-devui/theme';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { PersonalizeComponent } from '../@shared/components/personalize/personalize.component';
 import { PersonalizeService } from '../@core/services/personalize.service';
-import { TranslateService, TranslationChangeEvent } from '@ngx-translate/core';
-import { DaLayoutConfig, DaLayoutService } from '../@shared/layouts/da-layout';
-import { DaScreenMediaQueryService } from '../@shared/layouts/da-grid';
+import { PersonalizeComponent } from '../@shared/components/personalize/personalize.component';
 import { SideMenuComponent } from '../@shared/components/side-menu/side-menu.component';
-import { Theme } from 'ng-devui/theme';
-
+import { DaScreenMediaQueryService } from '../@shared/layouts/da-grid';
+import { DaLayoutConfig, DaLayoutService } from '../@shared/layouts/da-layout';
 
 @Component({
   selector: 'da-pages',
@@ -73,16 +72,12 @@ export class PagesComponent implements OnInit {
         this.updateMenu(res);
       });
 
-    this.translate.onLangChange
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((event: TranslationChangeEvent) => {
-        const values = this.translate.instant('page');
-        this.updateMenu(values);
-      });
+    this.translate.onLangChange.pipe(takeUntil(this.destroy$)).subscribe((event: TranslationChangeEvent) => {
+      const values = this.translate.instant('page');
+      this.updateMenu(values);
+    });
     this.personalizeService.getUiTheme()!.subscribe((theme) => {
-      const currentTheme = Object.values(
-        (window as { [key: string]: any })['devuiThemes']
-      ).find((i: Theme | unknown) => {
+      const currentTheme = Object.values((window as { [key: string]: any })['devuiThemes']).find((i: Theme | unknown) => {
         return (i as Theme).id === theme;
       });
       if (currentTheme && (<any>currentTheme).isDark) {
@@ -90,21 +85,15 @@ export class PagesComponent implements OnInit {
       } else {
         this.render2.removeClass(document.body, 'is-dark');
       }
-    })
+    });
   }
 
   updateMenu(values: any) {
     this.menu = [
       {
-        title: values['gettingStarted']['title'],
+        title: values['home']['title'],
         open: true,
-        children: [
-          {
-            title: values['gettingStarted']['sample'],
-            link: '/pages/getting-started/sample',
-          },
-        ],
-        link: '/pages/getting-started',
+        link: '/pages/home',
         menuIcon: 'icon icon-console',
       },
     ];
@@ -139,9 +128,7 @@ export class PagesComponent implements OnInit {
     this.isSidebarShrink = isShrink;
 
     if (this.layoutConfig.sidebar.firSidebar) {
-      this.layoutConfig.sidebar.firSidebar.width = this.isSidebarShrink
-        ? 54
-        : 240;
+      this.layoutConfig.sidebar.firSidebar.width = this.isSidebarShrink ? 54 : 240;
     }
     this.layoutConfig.sidebar['shrink'] = this.isSidebarShrink;
     this.layoutService.updateLayoutConfig(this.layoutConfig);

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateService, TranslationChangeEvent } from '@ngx-translate/core';
-import { DialogService, DValidateRules, FormLayout, Message } from 'ng-devui';
+import { DValidateRules, DialogService, FormLayout, Message } from 'ng-devui';
 import { I18nService } from 'ng-devui/i18n';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -44,7 +44,7 @@ export class RegisterComponent implements OnInit {
       { required: true },
       {
         sameToPassWord: this.sameToPassWord.bind(this),
-        message: { 'en-us': 'Ensure that the two passwords are the same.', 'zh-cn': '请确保密码一致' },
+        message: { 'en-us': 'Ensure that the two passwords are the same.', 'vi-VN': 'Đảm bảo rằng hai mật khẩu giống nhau' },
       },
       { minlength: 6 },
       { maxlength: 15 },

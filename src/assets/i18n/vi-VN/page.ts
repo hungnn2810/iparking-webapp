@@ -1,7 +1,7 @@
 export default {
   page: {
     home: {
-      title: 'Home',
+      title: 'Trang chủ',
     },
   },
 };

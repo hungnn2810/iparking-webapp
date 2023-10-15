@@ -1,5 +1,5 @@
-import { RouterModule, Routes } from '@angular/router';
 import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
 
 import { PagesComponent } from './pages.component';
 
@@ -9,27 +9,24 @@ const routes: Routes = [
     component: PagesComponent,
     children: [
       {
-        path: 'getting-started',
-        loadChildren: () =>
-          import('./getting-started/getting-started.module').then(
-            (m) => m.GettingStartedModule
-          )
+        path: 'home',
+        redirectTo: 'home',
       },
       {
         path: '',
-        redirectTo: 'getting-started',
-        pathMatch: 'full'
+        redirectTo: 'home',
+        pathMatch: 'full',
       },
       {
         path: '**',
-        redirectTo: 'getting-started'
-      }
-    ]
-  }
+        redirectTo: 'home',
+      },
+    ],
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
 export class PagesRoutingModule {}
